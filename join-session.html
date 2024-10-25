@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Session - Coragem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <button class="back-button" id="back-button">
+            ← Go Back
+        </button>
+        <i class="fa-regular fa-sun sun-icon"></i>
+    </div>
+
+    <div class="main-content">
+        <div class="title-container">
+            <div class="welcome-text">Joining</div>
+            <div class="logo">session</div>
+        </div>
+
+        <div class="form-container">
+            <input type="text" class="input-field" placeholder="Name">
+            <input type="text" class="input-field" placeholder="Session Code">
+            <button class="join-button">Join</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelector('#back-button').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+
+</script>
+</body>
+</html>

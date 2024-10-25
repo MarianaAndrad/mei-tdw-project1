@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: white;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.back-button {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: black;
+}
+
+.sun-icon {
+    font-size: 1.5rem;
+    color: black;
+}
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.welcome-text {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.logo {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    color: #000;
+    letter-spacing: -0.5px;
+}
+
+.button-container {
+    width: 100%;
+    max-width: 20rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.button {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.button-primary {
+    background-color: rgb(17, 24, 39);
+    color: white;
+}
+
+.button-primary:hover {
+    background-color: rgb(31, 41, 55);
+}
+
+.button-outline {
+    background-color: rgb(209, 213, 219);
+    color: rgb(17, 24, 39);
+    border: none;
+}
+
+.button-outline:hover {
+    background-color: rgb(229, 231, 235);
+}
+
+.footer {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+
+.error-message {
+    color: red;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    display: none;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 20rem;
+}
+
+.input-field {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: rgb(243, 244, 246);
+}
+
+.input-field:focus {
+    outline: 2px solid rgb(229, 231, 235);
+}
+
+.join-button {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: rgb(17, 24, 39);
+    color: white;
+    transition: background-color 0.2s;
+}
+
+.join-button:hover {
+    background-color: rgb(31, 41, 55);
+}
+
+::placeholder {
+    color: rgb(156, 163, 175);
+}
