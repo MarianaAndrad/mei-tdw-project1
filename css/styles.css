@@ -4,6 +4,16 @@
     box-sizing: border-box;
 }
 
+
+:root {
+    --primary-color: rgb(17, 24, 39);
+    --primary-hover: rgb(31, 41, 55);
+    --secondary-color: rgb(209, 213, 219);
+    --secondary-hover: rgb(229, 231, 235);
+    --text-color: rgb(51, 51, 51);
+    --background-color: white;
+}
+
 body {
     font-family: system-ui, -apple-system, sans-serif;
     background-color: white;
@@ -151,4 +161,14 @@ body {
 
 ::placeholder {
     color: rgb(156, 163, 175);
+}
+
+.status {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--primary-color);
+}
+
+.status.error {
+    color: red;
 }
