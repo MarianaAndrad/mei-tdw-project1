@@ -1,6 +1,7 @@
 // Document bindings
 const todosElement = document.getElementById('todo-container');
 const todoDescription = document.getElementById("todo-description");
+const errorMessage = document.getElementById('error-message');
 
 document.getElementById('todo-add').addEventListener('click', createTodo);
 
@@ -17,6 +18,14 @@ todosElement.addEventListener('click', (e) => {
 });
 
 function createTodo() {
+    if (!todoDescription.value.trim()){
+        errorMessage.textContent = 'Please enter a description for the task';
+        errorMessage.style.display = 'block';
+        return;
+    } else {
+        errorMessage.style.display = 'none';
+    }
+
     fetch(`https://671d0b6909103098807c0fdc.mockapi.io/user/${ourId}/todo/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -32,11 +41,10 @@ function createTodo() {
             todoItem.setAttribute('data-tid', tid);
 
             todoItem.innerHTML = `
-                <input type="checkbox" class="todo-checkbox">
-                <span class="todo-text">${todoDescription.value}</span>
-                <button class="todo-delete">
+                <div class="todo-delete">
                     <i class="fas fa-trash"></i>
-                </button>
+                </div>
+                <span class="todo-text">${todoDescription.value.trim()}</span>
             `;
 
             todosElement.appendChild(todoItem);
@@ -57,14 +65,14 @@ function fetchTodos() {
                 todoItem.setAttribute('data-tid', tid);
 
                 todoItem.innerHTML = `
-                <input type="checkbox" class="todo-checkbox">
-                <span class="todo-text">${item["description"]}</span>
-                <button class="todo-delete">
-                    <i class="fas fa-trash"></i>
-                </button>
-            `;
+                    <div class="todo-delete">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                    <span class="todo-text">${item["description"]}</span>
+                `;
 
-                todosElement.appendChild(todoItem);}
+                todosElement.appendChild(todoItem);
+            }
         });
 }
 

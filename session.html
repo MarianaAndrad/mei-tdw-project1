@@ -6,6 +6,7 @@
     <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
+<!--    <link rel="stylesheet" href="css/clock.css">-->
     <style>
         /* Component-specific styles */
         .modal {
@@ -167,7 +168,7 @@
 
         .message .header {
             font-size: 0.8em;
-            color: var(--text-color);
+            color: var(--secondary-color);
             margin-bottom: 4px;
             opacity: 0.8;
         }
@@ -284,6 +285,62 @@
             font-family: monospace;
         }
 
+        .todo-item {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .todo-text {
+            padding-left: 10px;
+        }
+
+        .todo-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .todo-controls {
+            display: flex;
+            align-items: baseline;
+        }
+
+        .todo-separator {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            min-width: 160px;
+        }
+        .clock span {
+            font-size: 80px;
+            width: 110px;
+            display: inline-block;
+            text-align: center;
+            position: relative;
+        }
+
+        .clock span::after {
+            font-size: 16px;
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #hrs::after {
+            content: 'HOURS';
+        }
+
+        #min::after {
+            content: 'MINS';
+        }
+
+        #sec::after {
+            content: 'SEC';
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .main-body {
@@ -294,10 +351,6 @@
                 flex-direction: row;
                 flex-wrap: wrap;
                 justify-content: center;
-            }
-
-            .card {
-                min-width: 160px;
             }
         }
     </style>
@@ -324,11 +377,13 @@
         <div class="cards-container">
             <div class="card">
                 <p>TODOLIST</p>
-                <div id="todo-container"></div>
-                <div>
+                <div class="todo-container" id="todo-container"></div>
+                <hr class="todo-separator" />
+                <div class="todo-controls">
                     <i class="fa-solid fa-plus" id="todo-add"></i>
                     <input type="text" class="input-field" placeholder="Task" id="todo-description">
                 </div>
+                <div class="error-message" id="error-message">Please fill in all fields</div>
             </div>
         </div>
 
@@ -347,7 +402,7 @@
         <div class="cards-container">
             <div class="card">
                 <p>Access Code <i class="fa-solid fa-copy" id="copyPeerIdButton"></i></p>
-                <h2 id="peerIdDisplay"></h2>
+                <h4 id="peerIdDisplay"></h4>
             </div>
             <div class="card">
                 <p>Score</p>
