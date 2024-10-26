@@ -243,8 +243,8 @@ function chronometer() {
                                 createTriviaGame(data.triviaQuestions);
                             });
                     }
-                }
-            });
+                });
+            }
         }
     }, 500)
 }
