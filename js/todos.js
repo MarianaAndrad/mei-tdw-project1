@@ -30,7 +30,6 @@ function createTodo() {
             const todoItem = document.createElement('div');
             todoItem.classList.add('todo-item');
             todoItem.setAttribute('data-tid', tid);
-            todoDescription.value = ""
 
             todoItem.innerHTML = `
                 <input type="checkbox" class="todo-checkbox">
@@ -41,6 +40,7 @@ function createTodo() {
             `;
 
             todosElement.appendChild(todoItem);
+            todoDescription.value = ""
         });
 }
 
