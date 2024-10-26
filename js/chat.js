@@ -1,4 +1,4 @@
-// Get session info
+// Get session info from sessionStorage
 const sessionCode = sessionStorage.getItem('sessionCode');
 const userName = sessionStorage.getItem('userName');
 let studyTime = sessionStorage.getItem('studyTime') ?? null;
@@ -6,12 +6,11 @@ let breakTime = sessionStorage.getItem('breakTime') ?? null;
 let sessionTime = sessionStorage.getItem('sessionTime') ?? null;
 const isHost = sessionStorage.getItem('isHost') === 'true';
 let peer;
-let connections = new Map();
+let connections = new Map(); // Map to store connections
 let hostId = null;
 let clockInterval;
 let restartsReceived = 0;
-let finished = false
-
+let finished = false;
 
 // DOM Elements
 const status = document.getElementById('status');
@@ -29,7 +28,7 @@ const modal = {
 
     show(options = {}) {
         const {
-            title = 'Modal Title',
+            title = 'Break Time',
             content = '',
             onConfirm = () => {},
             confirmText = 'Confirm',
@@ -43,7 +42,7 @@ const modal = {
         const confirmBtn = this.element.querySelector('.modal-button.primary');
         confirmBtn.textContent = confirmText;
 
-        // Set up event handlers
+        // Event listeners for closing and confirming
         const closeModal = () => {
             this.hide();
         };
@@ -72,33 +71,16 @@ const modal = {
     }
 };
 
+// Initialize PeerJS and configure STUN/TURN servers
 function initializePeer() {
     peer = new Peer({
         config: {
             iceServers: [
-                {
-                    urls: "stun:stun.relay.metered.ca:80",
-                },
-                {
-                    urls: "turn:global.relay.metered.ca:80",
-                    username: "c6b847e6b1529929d92031ed",
-                    credential: "ax783OE1j1gGpLL5",
-                },
-                {
-                    urls: "turn:global.relay.metered.ca:80?transport=tcp",
-                    username: "c6b847e6b1529929d92031ed",
-                    credential: "ax783OE1j1gGpLL5",
-                },
-                {
-                    urls: "turn:global.relay.metered.ca:443",
-                    username: "c6b847e6b1529929d92031ed",
-                    credential: "ax783OE1j1gGpLL5",
-                },
-                {
-                    urls: "turns:global.relay.metered.ca:443?transport=tcp",
-                    username: "c6b847e6b1529929d92031ed",
-                    credential: "ax783OE1j1gGpLL5",
-                },
+                { urls: "stun:stun.relay.metered.ca:80" },
+                { urls: "turn:global.relay.metered.ca:80", username: "c6b847e6b1529929d92031ed", credential: "ax783OE1j1gGpLL5" },
+                { urls: "turn:global.relay.metered.ca:80?transport=tcp", username: "c6b847e6b1529929d92031ed", credential: "ax783OE1j1gGpLL5" },
+                { urls: "turn:global.relay.metered.ca:443", username: "c6b847e6b1529929d92031ed", credential: "ax783OE1j1gGpLL5" },
+                { urls: "turns:global.relay.metered.ca:443?transport=tcp", username: "c6b847e6b1529929d92031ed", credential: "ax783OE1j1gGpLL5" }
             ],
         }
     });
@@ -118,7 +100,6 @@ function initializePeer() {
 
     peer.on('open', (id) => {
         // Display and store the peer ID
-
         if (isHost) {
             hostId = id;
             status.textContent = 'Room created. Waiting for participants...';
@@ -139,6 +120,7 @@ function initializePeer() {
     });
 }
 
+// Connect to the host peer
 function connectToHost(hostPeerId) {
     const conn = peer.connect(hostPeerId, {
         reliable: true,
@@ -155,6 +137,8 @@ function connectToHost(hostPeerId) {
     hostId = hostPeerId;
 }
 
+
+// Handle incoming connections from other peers
 function handleIncomingConnection(conn) {
     const peerId = conn.peer;
     connections.set(peerId, {
@@ -169,13 +153,15 @@ function handleIncomingConnection(conn) {
     }
 }
 
+
+// Setup handlers for connection events
 function setupConnectionHandlers(conn) {
     conn.on('open', () => {
         if (!isHost) {
             enableChat();
         }
 
-        // Send initial info
+        // Send user information to the connection
         conn.send({
             type: 'user-info',
             userName: userName,
@@ -202,6 +188,7 @@ function setupConnectionHandlers(conn) {
     });
 }
 
+// Chronometer function for session timing
 function chronometer() {
     clockInterval = setInterval(() => {
         const start = new Date(sessionTime);
@@ -225,28 +212,31 @@ function chronometer() {
                 content: 'Ready to start the game?',
                 confirmText: 'Start Game',
                 onConfirm: () => {
-                    // This will fetch questions and start the game
-                    fetch('https://trivia-questions-api.p.rapidapi.com/triviaApi', {
-                        headers: {
-                            'x-rapidapi-host': 'trivia-questions-api.p.rapidapi.com',
-                            'x-rapidapi-key': '202be8871dmsh5ca38612327dcb4p195af3jsn5be5e34f2ef6'
-                        }
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (!data.triviaQuestions) {
-                                alert("Too many requests! Try again later");
-
-                                finished = true;
-                                broadcastRestart();
-                            }
-
-                            createTriviaGame(data.triviaQuestions);
-                        });
+                    fetchTriviaQuestions();
                 }
             });
         }
     }, 500)
+}
+
+// Fetch trivia questions from the API
+function fetchTriviaQuestions() {
+    fetch('https://trivia-questions-api.p.rapidapi.com/triviaApi', {
+        headers: {
+            'x-rapidapi-host': 'trivia-questions-api.p.rapidapi.com',
+            'x-rapidapi-key': '202be8871dmsh5ca38612327dcb4p195af3jsn5be5e34f2ef6'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.triviaQuestions) {
+                alert("Too many requests! Try again later");
+                finished = true;
+                broadcastRestart();
+            }
+
+            createTriviaGame(data.triviaQuestions);
+        });
 }
 
 function handleMessage(peerId, data) {

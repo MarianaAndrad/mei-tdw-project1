@@ -24,7 +24,7 @@ function initializePeer() {
         }
     });
 
-    // Event listener for successful connection
+    // Event listener for successful PeerJS connection
     peer.on('open', (id) => {
         status.textContent = 'Connected to server';
         status.classList.remove('error');
@@ -48,7 +48,7 @@ function validateInputs() {
         return false;
     }
 
-    // Ensure study and break times are at least 5 minutes
+    // Ensure study and break times are at least 1 minutes
     if (studyTimeInput.value && (parseInt(studyTimeInput.value) < 1 || isNaN(parseInt(studyTimeInput.value)))) {
         errorMessage.textContent = 'Study times must be at least 1 minute and numeric.';
         errorMessage.style.display = 'block';

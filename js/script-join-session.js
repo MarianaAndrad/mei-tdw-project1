@@ -37,7 +37,7 @@ function initializePeer() {
 }
 
 
-// Validate form inputs for required fields and correct values
+// Validate form inputs for required fields
 function validateInputs() {
     // Check if the username input is empty
     if (!userNameInput.value.trim()) {
