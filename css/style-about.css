@@ -1,0 +1,52 @@
+.description {
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: var(--text-color);
+    max-width: 800px;
+    margin: 0 auto 20px;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.description p {
+    margin-bottom: 20px;
+}
+
+/* Styles for keywords section */
+.keywords-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.keyword-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 120px;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.keyword-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.keyword-card p {
+    font-size: 0.9rem;
+}
+
+.keyword-card:hover {
+    transform: scale(1.05);
+    background-color: var(--primary-hover);
+}

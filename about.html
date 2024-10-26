@@ -2,9 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Coragem</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style-about.css">
 </head>
-<body>
+<body data-theme="light">
+<div class="container">
+    <div class="header">
+        <button class="back-button" id="back-button">
+            ← Go Back
+        </button>
+        <i class="fa-regular fa-sun theme-icon" id="icon-theme"></i>
+    </div>
 
+    <div class="main-content">
+        <div class="title-container">
+            <div class="welcome-text">Welcome to ... </div>
+            <div class="logo">Coragem!</div>
+        </div>
+
+        <div class="description">
+            <p>A unique digital space crafted for productivity and community. Here, you’ll experience the power of the Pomodoro Technique in a shared environment, where you can study alongside others, stay motivated, and make the most of every focused session.</p>
+            <p>With our Pomodoro clock, you can break down your study time effectively, and during each break, unwind with a curated list of games that bring a bit of fun into your routine.</p>
+            <p>In the study sessions, create tasks tailored to your goals or assign tasks to other users, helping everyone stay on track and organized. [Website Name] isn’t just a study tool—it’s a study community where focus meets fun, so you can be productive and enjoy the process too.</p>
+        </div>
+
+        <!-- Keyword Cards Section -->
+        <div class="keywords-section">
+            <div class="keyword-card">
+                <i class="fas fa-clock"></i>
+                <p>Pomodoro Technique</p>
+            </div>
+            <div class="keyword-card">
+                <i class="fas fa-users"></i>
+                <p>Community</p>
+            </div>
+            <div class="keyword-card">
+                <i class="fas fa-tasks"></i>
+                <p>Task Management</p>
+            </div>
+            <div class="keyword-card">
+                <i class="fas fa-gamepad"></i>
+                <p>Break Time Games</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/theme.js"></script>
+<script>
+    document.getElementById('back-button').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+</script>
 </body>
 </html>
