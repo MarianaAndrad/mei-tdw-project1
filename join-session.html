@@ -14,7 +14,7 @@
         <button class="back-button" id="back-button">
             ← Go Back
         </button>
-        <i class="fa-regular fa-sun sun-icon"></i>
+        <i class="fa-regular fa-sun theme-icon" id="icon-theme"></i>
     </div>
 
     <div class="main-content">
@@ -27,86 +27,15 @@
             <div class="error-message" id="error-message">Please fill in all fields</div>
             <input type="text" id="name-field" class="input-field" placeholder="Name">
             <input type="text" id="session-code-field" class="input-field" placeholder="Session Code">
-            <button class="join-button" id="join-button">Join</button>
+            <button class="button button-primary" id="join-button">Join</button>
 
             <div class="status" id="status">Connecting to server...</div>
         </div>
     </div>
 </div>
 
-<script src="js/join-session.js"></script>
-<script>
-    let peer;
-    const status = document.getElementById('status');
-    const roomNameInput = document.getElementById('session-code-field');
-    const userNameInput = document.getElementById('name-field');
-    const joinBtn = document.getElementById('join-button');
 
-    function initializePeer() {
-        peer = new Peer({
-            config: {
-                iceServers: [
-                    {
-                        urls: "stun:stun.relay.metered.ca:80",
-                    },
-                    {
-                        urls: "turn:global.relay.metered.ca:80",
-                        username: "c6b847e6b1529929d92031ed",
-                        credential: "ax783OE1j1gGpLL5",
-                    },
-                    {
-                        urls: "turn:global.relay.metered.ca:80?transport=tcp",
-                        username: "c6b847e6b1529929d92031ed",
-                        credential: "ax783OE1j1gGpLL5",
-                    },
-                    {
-                        urls: "turn:global.relay.metered.ca:443",
-                        username: "c6b847e6b1529929d92031ed",
-                        credential: "ax783OE1j1gGpLL5",
-                    },
-                    {
-                        urls: "turns:global.relay.metered.ca:443?transport=tcp",
-                        username: "c6b847e6b1529929d92031ed",
-                        credential: "ax783OE1j1gGpLL5",
-                    },
-                ],
-            }
-        });
-
-        peer.on('open', (id) => {
-            status.textContent = 'Connected to server';
-            status.classList.remove('error');
-            joinBtn.disabled = false;
-        });
-
-        peer.on('error', (err) => {
-            console.error('PeerJS error:', err);
-            status.textContent = `Error: ${err.type} - ${err.message}`;
-            status.classList.add('error');
-        });
-    }
-
-    joinBtn.addEventListener('click', () => {
-        const roomName = roomNameInput.value.trim();
-        const userName = userNameInput.value.trim() || `User_${Math.random().toString(36).substr(2, 6)}`;
-
-        if (!roomName) {
-            status.textContent = 'Please enter a session code to join';
-            status.classList.add('error');
-            return;
-        }
-
-        // Store room info in sessionStorage
-        sessionStorage.setItem('roomName', roomName);
-        sessionStorage.setItem('userName', userName);
-        sessionStorage.setItem('peerId', peer.id);
-        sessionStorage.setItem('isHost', 'false');
-
-        // Redirect to chat room
-        window.location.href = 'test/chat-room.html'; // TODO CHANGE THE PATH
-    });
-
-    initializePeer();
-</script>
+<script src="js/theme.js"></script>
+<script src="js/script-join-session.js"></script>
 </body>
 </html>
