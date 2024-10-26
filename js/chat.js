@@ -118,13 +118,14 @@ function initializePeer() {
 
     peer.on('open', (id) => {
         // Display and store the peer ID
-        peerIdDisplay.textContent = id;
 
         if (isHost) {
             hostId = id;
             status.textContent = 'Room created. Waiting for participants...';
+            peerIdDisplay.textContent = id;
             enableChat();
         } else {
+            peerIdDisplay.textContent=sessionCode;
             connectToHost(sessionCode);
         }
     });
@@ -549,57 +550,6 @@ function createTriviaGame(questions) {
             });
         });
     }
-
-    // Add some styles for the trivia game
-    const style = document.createElement('style');
-    style.textContent = `
-        .trivia-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .category {
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .difficulty {
-            font-size: 0.9em;
-            color: var(--text-color);
-            opacity: 0.8;
-        }
-
-        .question {
-            font-size: 1.2em;
-            margin: 1rem 0;
-        }
-
-        .answers {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .answer-btn {
-            width: 100%;
-            text-align: left;
-            padding: 0.75rem 1rem;
-            transition: all 0.3s;
-        }
-
-        .answer-btn:hover:not(:disabled) {
-            transform: translateX(5px);
-        }
-
-        .score {
-            text-align: center;
-            font-weight: bold;
-            margin-top: 1rem;
-        }
-    `;
-    document.head.appendChild(style);
-
     // Start the game
     showQuestion();
 }
