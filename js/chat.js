@@ -219,32 +219,31 @@ function chronometer() {
 
         if (hrs === min && min === sec && sec === '00') {
             clearInterval(clockInterval);
-            success = false;
-            while (!success) {
-                modal.show({
-                    title: 'Trivia Time!',
-                    content: 'Ready to start the game?',
-                    confirmText: 'Start Game',
-                    onConfirm: () => {
-                        // This will fetch questions and start the game
-                        fetch('https://trivia-questions-api.p.rapidapi.com/triviaApi', {
-                            headers: {
-                                'x-rapidapi-host': 'trivia-questions-api.p.rapidapi.com',
-                                'x-rapidapi-key': '202be8871dmsh5ca38612327dcb4p195af3jsn5be5e34f2ef6'
-                            }
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (!data.triviaQuestions) {
-                                    alert("Too many requests! Try again later");
-                                }
+            modal.show({
+                title: 'Trivia Time!',
+                content: 'Ready to start the game?',
+                confirmText: 'Start Game',
+                onConfirm: () => {
+                    // This will fetch questions and start the game
+                    fetch('https://trivia-questions-api.p.rapidapi.com/triviaApi', {
+                        headers: {
+                            'x-rapidapi-host': 'trivia-questions-api.p.rapidapi.com',
+                            'x-rapidapi-key': '202be8871dmsh5ca38612327dcb4p195af3jsn5be5e34f2ef6'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (!data.triviaQuestions) {
+                                alert("Too many requests! Try again later");
 
-                                success = true;
-                                createTriviaGame(data.triviaQuestions);
-                            });
-                    }
-                });
-            }
+                                finished = true;
+                                broadcastRestart();
+                            }
+
+                            createTriviaGame(data.triviaQuestions);
+                        });
+                }
+            });
         }
     }, 500)
 }
