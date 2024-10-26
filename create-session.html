@@ -2,9 +2,129 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Session - Coragem</title>
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+<div class="container">
+    <div class="header">
+        <button class="back-button" id="back-button">
+            ← Go Back
+        </button>
+        <i class="fa-regular fa-sun theme-icon" id="icon-theme"></i>
+    </div>
+
+    <div class="main-content">
+        <div class="title-container">
+            <div class="welcome-text">Creating</div>
+            <div class="logo">session</div>
+        </div>
+
+        <div class="form-container">
+            <div class="error-message" id="error-message">Please fill in all fields</div>
+            <input type="text" id="name-field" class="input-field" placeholder="Name">
+            <span class="input-label session-end-label">Session End Time</span>
+            <input type="datetime-local" id="session-end-field" class="input-field" placeholder="Session End Time">
+
+            <input type="text" id="study-time-field" class="input-field" placeholder="Study Time (minutes) (optional)">
+            <input type="text" id="break-time-field" class="input-field" placeholder="Break Time (minutes) (optional)">
+            <button class="button button-primary" id="create-session-button">Create</button>
+
+            <div class="status" id="status">Connecting to server...</div>
+        </div>
+    </div>
+</div>
+
+<script src="js/theme.js"></script>
+<script>
+    document.getElementById('back-button').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+
+    let peer;
+    const status = document.getElementById('status');
+    const createBtn = document.getElementById('create-session-button');
+    const errorMessage = document.getElementById('error-message');
+    const userNameInput = document.getElementById('name-field');
+    const studyTimeInput = document.getElementById('study-time-field');
+    const breakTimeInput = document.getElementById('break-time-field');
+    const sessionEndInput = document.getElementById('session-end-field');
+
+    function initializePeer() {
+        peer = new Peer({
+            config: {
+                iceServers: [
+                    { urls: "stun:stun.relay.metered.ca:80" },
+                    { urls: "turn:global.relay.metered.ca:80", username: "c6b847e6b1529929d92031ed", credential: "ax783OE1j1gGpLL5" },
+                    { urls: "turn:global.relay.metered.ca:80?transport=tcp", username: "c6b847e6b1529929d92031ed", credential: "ax783OE1j1gGpLL5" },
+                    { urls: "turn:global.relay.metered.ca:443", username: "c6b847e6b1529929d92031ed", credential: "ax783OE1j1gGpLL5" },
+                    { urls: "turns:global.relay.metered.ca:443?transport=tcp", username: "c6b847e6b1529929d92031ed", credential: "ax783OE1j1gGpLL5" }
+                ],
+            }
+        });
+
+        peer.on('open', (id) => {
+            status.textContent = 'Connected to server';
+            status.classList.remove('error');
+            createBtn.disabled = false;
+        });
+
+        peer.on('error', (err) => {
+            console.error('PeerJS error:', err);
+            status.textContent = `Error: ${err.type} - ${err.message}`;
+            status.classList.add('error');
+        });
+    }
+
+    function validateInputs() {
+        if (!userNameInput.value.trim() || !sessionEndInput.value) {
+            errorMessage.textContent = 'Please fill in all fields';
+            errorMessage.style.display = 'block';
+            return false;
+        }
+
+        const sessionEndTime = new Date(sessionEndInput.value);
+        const currentTime = new Date();
+        
+        if (sessionEndTime <= currentTime) {
+            errorMessage.textContent = 'End time must be in the future';
+            errorMessage.style.display = 'block';
+            return false;
+        }
+
+        if (studyTimeInput.value && breakTimeInput.value && (studyTimeInput.value < 1 || breakTimeInput.value < 1)) {
+            errorMessage.textContent = 'Study and Break times must be at least 1 minute';
+            errorMessage.style.display = 'block';
+            return false;
+        }
+
+        errorMessage.style.display = 'none';
+        return true;
+    }
+
+    createBtn.addEventListener('click', () => {
+        if (!validateInputs()) return;
+
+        localStorage.setItem('studyTime', studyTimeInput.value ? studyTimeInput.value : 25);
+        localStorage.setItem('breakTime', breakTimeInput.value ? breakTimeInput.value : 5);
+        localStorage.setItem('sessionEnd', sessionEndInput.value);
+
+        const roomName =`Room_${Math.random().toString(36).substr(2, 6)}`;
+        const userName = userNameInput.value.trim() || `User_${Math.random().toString(36).substr(2, 6)}`;
+
+        sessionStorage.setItem('roomName', roomName);
+        sessionStorage.setItem('userName', userName);
+        sessionStorage.setItem('peerId', peer.id);
+        sessionStorage.setItem('isHost', 'true');
+
+        window.location.href = 'test/chat-room.html';
+    });
+
+    initializePeer();
+</script>
 
 </body>
 </html>
