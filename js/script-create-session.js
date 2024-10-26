@@ -10,7 +10,6 @@ const errorMessage = document.getElementById('error-message');
 const userNameInput = document.getElementById('name-field');
 const studyTimeInput = document.getElementById('study-time-field');
 const breakTimeInput = document.getElementById('break-time-field');
-const sessionEndInput = document.getElementById('session-end-field');
 
 // Initialize PeerJS with server configurations
 function initializePeer() {
@@ -44,17 +43,8 @@ function initializePeer() {
 // Validate form inputs for required fields and correct values
 function validateInputs() {
     // Check required fields
-    if (!userNameInput.value.trim() || !sessionEndInput.value) {
+    if (!userNameInput.value.trim()) {
         errorMessage.textContent = 'Please fill the required fields';
-        errorMessage.style.display = 'block';
-        return false;
-    }
-
-    // Validate session end time is in the future
-    const sessionEndTime = new Date(sessionEndInput.value);
-    const currentTime = new Date();
-    if (sessionEndTime <= currentTime) {
-        errorMessage.textContent = 'The end time of the session must be after the current time';
         errorMessage.style.display = 'block';
         return false;
     }
@@ -76,9 +66,8 @@ createBtn.addEventListener('click', () => {
     if (!validateInputs()) return; // Abort if validation fails
 
     // Save study and break times to local storage (default values if not provided)
-    localStorage.setItem('studyTime', studyTimeInput.value ? studyTimeInput.value : 25);
-    localStorage.setItem('breakTime', breakTimeInput.value ? breakTimeInput.value : 5);
-    localStorage.setItem('sessionEnd', sessionEndInput.value);
+    sessionStorage.setItem('studyTime', studyTimeInput.value ? studyTimeInput.value : 25);
+    sessionStorage.setItem('breakTime', breakTimeInput.value ? breakTimeInput.value : 5);
 
     // Generate unique room name and user name if not provided
     const roomName = `Room_${Math.random().toString(36).substr(2, 6)}`;
@@ -91,7 +80,7 @@ createBtn.addEventListener('click', () => {
     sessionStorage.setItem('isHost', 'true');
 
     // Redirect to chat room
-    window.location.href = 'test/chat-room.html';
+    window.location.href = 'session.html';
 });
 
 // Start peer initialization

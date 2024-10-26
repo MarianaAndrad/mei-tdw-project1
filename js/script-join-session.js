@@ -62,13 +62,13 @@ joinBtn.addEventListener('click', () => {
     }
 
     // Store session information in sessionStorage for access in other pages
-    sessionStorage.setItem('roomName', roomNameInput.value);
+    sessionStorage.setItem('sessionCode', roomNameInput.value);  // HOST
     sessionStorage.setItem('userName', userNameInput.value);
-    sessionStorage.setItem('peerId', peer.id);
+    sessionStorage.setItem('peerId', peer.id);                   // EU
     sessionStorage.setItem('isHost', 'false');
 
     // Redirect to chat room page
-    window.location.href = 'test/chat-room.html';  // TODO: Update the path if necessary
+    window.location.href = 'session.html';
 });
 
 // Initialize PeerJS on page load

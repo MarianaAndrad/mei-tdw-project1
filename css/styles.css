@@ -11,6 +11,8 @@
     --secondary-hover: rgb(229, 231, 235);
     --text-color: rgb(51, 51, 51);
     --background-color: white;
+
+    --card-background: rgb(209, 213, 219);
 }
 
 [data-theme="dark"] {
@@ -20,6 +22,7 @@
     --secondary-hover: rgb(17, 24, 39);
     --text-color: rgb(243, 244, 246);
     --background-color: rgb(33, 33, 33);
+    --card-background: rgb(108, 107, 107);
 }
 
 body {
@@ -34,6 +37,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     padding: 1rem;
+    gap: 20px;
 }
 
 .header {
@@ -51,6 +55,10 @@ body {
     cursor: pointer;
     font-size: 1rem;
     color: var(--text-color);
+}
+
+.back-button span {
+    padding-left: 10px;
 }
 
 .theme-icon {
