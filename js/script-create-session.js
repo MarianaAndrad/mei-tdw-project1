@@ -9,7 +9,6 @@ const createBtn = document.getElementById('create-session-button');
 const errorMessage = document.getElementById('error-message');
 const userNameInput = document.getElementById('name-field');
 const studyTimeInput = document.getElementById('study-time-field');
-const breakTimeInput = document.getElementById('break-time-field');
 
 // Initialize PeerJS with server configurations
 function initializePeer() {
@@ -50,8 +49,8 @@ function validateInputs() {
     }
 
     // Ensure study and break times are at least 5 minutes
-    if (studyTimeInput.value && breakTimeInput.value && (studyTimeInput.value < 5 || breakTimeInput.value < 5)) {
-        errorMessage.textContent = 'Study and Break times must be at least 5 minutes';
+    if (studyTimeInput.value && studyTimeInput.value < 1) {
+        errorMessage.textContent = 'Study times must be at least 1 minutes';
         errorMessage.style.display = 'block';
         return false;
     }
@@ -67,13 +66,13 @@ createBtn.addEventListener('click', () => {
 
     // Save study and break times to local storage (default values if not provided)
     sessionStorage.setItem('studyTime', studyTimeInput.value ? studyTimeInput.value : 25);
-    sessionStorage.setItem('breakTime', breakTimeInput.value ? breakTimeInput.value : 5);
 
     // Generate unique room name and user name if not provided
     const roomName = `Room_${Math.random().toString(36).substr(2, 6)}`;
     const userName = userNameInput.value.trim() || `User_${Math.random().toString(36).substr(2, 6)}`;
 
     // Store session data in session storage
+    sessionStorage.setItem('sessionTime', new Date().toString());
     sessionStorage.setItem('roomName', roomName);
     sessionStorage.setItem('userName', userName);
     sessionStorage.setItem('peerId', peer.id);

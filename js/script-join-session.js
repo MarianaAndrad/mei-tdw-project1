@@ -61,6 +61,8 @@ joinBtn.addEventListener('click', () => {
         return;
     }
 
+    sessionStorage.clear();
+
     // Store session information in sessionStorage for access in other pages
     sessionStorage.setItem('sessionCode', roomNameInput.value);  // HOST
     sessionStorage.setItem('userName', userNameInput.value);
