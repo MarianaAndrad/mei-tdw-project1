@@ -1,18 +1,18 @@
-document.getElementById('icon-theme').addEventListener('click', function() {
-    toggleTheme();
-});
+// Event listener to toggle theme on icon click
+document.getElementById('icon-theme').addEventListener('click', toggleTheme);
 
-// Função para inicializar o tema da página (light/dark) a partir da informação guardada no localStorage
+// Initialize the theme based on saved data or default to light mode
 function initializeTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
+    const savedTheme = localStorage.getItem('theme') || 'light';  // Retrieve saved theme, default to 'light' if not set
     const body = document.body;
     const icon = document.getElementById("icon-theme");
 
+    // Set the body's theme and icon appearance based on the saved theme
     body.setAttribute("data-theme", savedTheme);
     icon.className = savedTheme === "light" ? "fa-regular fa-sun theme-icon" : "fa-regular fa-moon theme-icon";
 }
 
-// Função para alternar o tema da página (light/dark) e guardar a informação no localStorage
+// Toggle between light and dark themes and save preference to localStorage
 function toggleTheme() {
     const body = document.body;
     const icon = document.getElementById("icon-theme");
@@ -20,10 +20,11 @@ function toggleTheme() {
 
     const newTheme = currentTheme === "light" ? "dark" : "light";
     body.setAttribute("data-theme", newTheme);
+
     icon.className = newTheme === "light" ? "fa-regular fa-sun theme-icon" : "fa-regular fa-moon theme-icon";
 
-    localStorage.setItem('theme', newTheme);  // Guarda o tema atual no localStorage
+    localStorage.setItem('theme', newTheme);
 }
 
-// Inicializa o tema da página
+// Initialize theme on page load
 initializeTheme();

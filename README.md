@@ -1,30 +1,42 @@
 # mei-tdw-project1
 
+## Project Description
 
+## Project Structure
+```
+/project-root
+├── /css
+│   └── styles.css
+├── /js
+│   └── theme.js
+├── /assets
+│   └── images/
+├── index.html
+└── README.md
+```
 
-project
+# TODO
+- [ ] change name of project
+- [x] CREATE INDEX.HTML
+- [ ] CREATE about.html
+- [x] CREATE join session.html
+- [x] CREATE create session.html
+- [ ] CREATE session.html
+  - [ ] Clock
+  - [ ] Score
+  - [ ] codigo da sessao
+  - [ ] lista de jogadores
+  - [ ] intervalo buttons
+  - [ ] chat
+- [ ] CREATE break-games.html (listagem de jogos)
+    - [ ] card com imagens, nomes e descrição dos jogos
+    - [ ] botão de jogar
+- [ ] CREATE game-sudoku.html
+- [ ] CREATE game-quiz.html
 
-    index page [ ]
+- [ ] master details
+- [ ] testar
+- [ ] deploy
+- [ ] report
+- [ ] commentarios scripts
 
-    rules page [ ]
-
-    join session [ ]
-
-    creating session [ ]
-
-    session page
-
-        tolist (adicionar, remover, dar complete etc)
-
-        relogio no centro
-        lista de participantes
-        weather information ?? 
-
-    intervalo page (listagem de jogos)
-
-    pagina de cada jogo
-
-    statistica pagina ??
-
-enviar mensagme ao professor 
-master-details ver 
