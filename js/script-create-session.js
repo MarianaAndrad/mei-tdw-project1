@@ -49,8 +49,8 @@ function validateInputs() {
     }
 
     // Ensure study and break times are at least 5 minutes
-    if (studyTimeInput.value && studyTimeInput.value < 1) {
-        errorMessage.textContent = 'Study times must be at least 1 minutes';
+    if (studyTimeInput.value && (parseInt(studyTimeInput.value) < 1 || isNaN(parseInt(studyTimeInput.value)))) {
+        errorMessage.textContent = 'Study times must be at least 1 minute and numeric.';
         errorMessage.style.display = 'block';
         return false;
     }

@@ -11,3 +11,8 @@ document.getElementById('joinSession').addEventListener('click', function() {
 document.getElementById('about').addEventListener('click', function() {
     window.location.href = 'about.html';
 });
+
+document.getElementById('stats').addEventListener('click', function() {
+    window.location.href = 'stats.html';
+});
+

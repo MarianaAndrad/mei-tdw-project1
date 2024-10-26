@@ -2,9 +2,174 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Statistics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        .stats-container {
+            display: flex;
+            flex-direction: row;
+            align-self: center;
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .stat-box {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 6px;
+            text-align: center;
+            min-width: 120px;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <div class="header">
+        <button class="back-button" id="back-button">
+            ← Go Back
+        </button>
+        <i class="fa-regular fa-sun theme-icon" id="icon-theme"></i>
+    </div>
+    <h1>Score Statistics</h1>
 
+    <div class="stats-container">
+        <div class="stat-box">
+            <div class="stat-label">Total Games</div>
+            <div class="stat-value" id="totalGames">0</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Average Score</div>
+            <div class="stat-value" id="avgScore">0</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">High Score</div>
+            <div class="stat-value" id="highScore">0</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Low Score</div>
+            <div class="stat-value" id="lowScore">0</div>
+        </div>
+    </div>
+
+    <div>
+        <h2>Recent Games</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Score</th>
+            </tr>
+            </thead>
+            <tbody id="scoreHistory">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Load scores from localStorage
+    function getScores() {
+        const scoresJson = localStorage.getItem("scores") || '[]';
+        return JSON.parse(scoresJson);
+    }
+
+    // Calculate statistics
+    function calculateStats(scores) {
+        if (scores.length === 0) return {
+            total: 0,
+            average: 0,
+            highest: 0,
+            lowest: 0
+        };
+
+        const scoreValues = scores.map(s => s.score);
+        return {
+            total: scores.length,
+            average: (scoreValues.reduce((a, b) => a + b, 0) / scores.length).toFixed(1),
+            highest: Math.max(...scoreValues),
+            lowest: Math.min(...scoreValues)
+        };
+    }
+
+    // Update statistics display
+    function updateStats() {
+        const scores = getScores();
+        const stats = calculateStats(scores);
+
+        document.getElementById('totalGames').textContent = stats.total;
+        document.getElementById('avgScore').textContent = stats.average;
+        document.getElementById('highScore').textContent = stats.highest;
+        document.getElementById('lowScore').textContent = stats.lowest;
+
+        // Update history table
+        updateTable(scores);
+    }
+
+    // Update score history table
+    function updateTable(scores) {
+        const tbody = document.getElementById('scoreHistory');
+        tbody.innerHTML = '';
+
+        // Sort scores by date (newest first)
+        const sortedScores = [...scores].sort((a, b) =>
+            new Date(b.at) - new Date(a.at)
+        );
+
+        // Display last 10 scores
+        sortedScores.slice(0, 10).forEach(score => {
+            const row = document.createElement('tr');
+            const date = new Date(score.at);
+
+            row.innerHTML = `
+                    <td>${date.toLocaleDateString()} ${date.toLocaleTimeString()}</td>
+                    <td>${score.score}</td>
+                `;
+
+            tbody.appendChild(row);
+        });
+    }
+
+    // Initial update
+    updateStats();
+
+    // Update when storage changes
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'scores') {
+            updateStats();
+        }
+    });
+
+    document.getElementById('back-button').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+</script>
+<script src="js/theme.js"></script>
 </body>
 </html>
