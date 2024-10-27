@@ -14,10 +14,3 @@
 ├── index.html
 └── README.md
 ```
-
-- [ ] master details
-- [ ] testar
-- [ ] deploy
-- [ ] report
-- [ ] commentarios scripts
-
