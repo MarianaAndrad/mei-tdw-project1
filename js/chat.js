@@ -45,6 +45,8 @@ const modal = {
         // Event listeners for closing and confirming
         const closeModal = () => {
             this.hide();
+            finished = true;
+            broadcastRestart();
         };
 
         const handleConfirm = () => {
